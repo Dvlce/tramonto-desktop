@@ -3,7 +3,7 @@ import argparse,hashlib,json,re,shutil,subprocess
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 CODE=['config.py','security.py','store.py','http_guard.py','tramonto.py','lab.py','network_catalog.py']
-ASSETS=['tramonto.html','tramonto.css','tramonto.js','tramonto-lab.js','tramonto-font.js','tramonto-math.js','tramonto-study.js','tramonto-tools.js','portal-motion.js']
+ASSETS=['web.css','tramonto.html','tramonto.css','tramonto.js','tramonto-lab.js','tramonto-font.js','tramonto-math.js','tramonto-study.js','tramonto-tools.js','portal-motion.js']
 parser=argparse.ArgumentParser();parser.add_argument('source',type=Path);args=parser.parse_args();source=args.source.resolve()
 code=ROOT/'backend/source';assets=ROOT/'resources/portal';code.mkdir(parents=True,exist_ok=True);assets.mkdir(parents=True,exist_ok=True)
 for name in CODE:shutil.copy2(source/name,code/name)

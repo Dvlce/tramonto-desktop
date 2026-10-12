@@ -100,8 +100,9 @@
     "resources/portal/vendor/mathlive/mathlive.min.js": "ab9f6f16d549e88d6a11dfb7c909365fd37563f1ca0136474e7833d23a8bd2ee",
     "resources/portal/vendor/opentype.min.js": "c0f9c7ca85e18075a8819e5fe2dee6e1d535f9a2269f5314f36cce94a183adba",
     "resources/portal/vendor/purify.min.js": "2c90a9b46d6463f26038a29b686e82bc91de01fdac9d5229e7cfe3b360134ea2",
-    "resources/portal/vendor/tramonto-icons.js": "3a2e6693b08543b6497ef7338ababd7d216f31836fb67cfd02d0187f4fc74fde"
+    "resources/portal/vendor/tramonto-icons.js": "3a2e6693b08543b6497ef7338ababd7d216f31836fb67cfd02d0187f4fc74fde",
+    "resources/portal/web.css": "e37aca53b489a3a3c89e07659ea3077e6ba2db4d80bf324585588e91356c2f47"
   },
-  "revision": "c233a22b6067bae23b6485c46b1e0241d1578a0d",
+  "revision": "c22bbf9ac2cc8261d8bfc4088c592cfd3f5b167b",
   "source": "https://github.com/Dvlce/alba-tramonto"
 }

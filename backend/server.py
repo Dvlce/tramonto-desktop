@@ -45,11 +45,12 @@ async def start(data_root,assets,spice):
     async def me(request):return web.json_response({'user_id':1,'is_admin':True,'name':'Quaderno locale','csrf':request['identity']['csrf'],'telegram_linked':False})
     async def home(_):return web.HTTPFound('/tramonto')
     async def motion(_):return web.FileResponse(assets/'portal-motion.js')
+    async def shared_style(_):return web.FileResponse(assets/'web.css')
     async def backup(_):
         path=data_root/'desktop-backup.sqlite3'
         with sqlite3.connect(path) as destination:store.db.backup(destination)
         return web.FileResponse(path,headers={'Content-Disposition':'attachment; filename="Tramonto-backup.sqlite3"'})
-    app.add_routes([web.get('/',home),web.get('/health',health),web.get('/api/me',me),web.get('/assets/portal-motion.js',motion),web.get('/api/desktop/backup',backup)])
+    app.add_routes([web.get('/',home),web.get('/health',health),web.get('/api/me',me),web.get('/assets/portal-motion.js',motion),web.get('/assets/web.css',shared_style),web.get('/api/desktop/backup',backup)])
     setup_tramonto(app,service)
     runner=web.AppRunner(app,access_log=None);await runner.setup();site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
     port=site._server.sockets[0].getsockname()[1];expected_host='127.0.0.1:'+str(port)

@@ -1,6 +1,6 @@
 {
   "name": "tramonto-desktop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Standalone Tramonto notebook for Windows and macOS. No local AI.",
   "main": "main.cjs",
   "author": "Dvlce",

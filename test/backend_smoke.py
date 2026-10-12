@@ -1,5 +1,5 @@
 """Fresh-machine smoke against the actual frozen executable; no system Python in the app."""
-import json,os,subprocess,tempfile,time,urllib.request,urllib.error
+import json,os,re,subprocess,tempfile,time,urllib.request,urllib.error
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 exe=ROOT/'resources/backend'/('tramonto-backend.exe' if os.name=='nt' else 'tramonto-backend')
@@ -24,6 +24,15 @@ with tempfile.TemporaryDirectory() as folder:
  data=Path(folder);process,origin,token=launch(data)
  try:
   assert request(origin,token,'/health')['ai'] is False
+  # The actual entry document must resolve every bundled script and stylesheet.
+  with urllib.request.urlopen(urllib.request.Request(origin+'/tramonto',headers={'Cookie':'session='+token}),timeout=15) as response:html=response.read().decode()
+  references=re.findall(r'<(?:script|link)\b[^>]*(?:src|href)="([^"]+)"',html)
+  assert references
+  for resource in references:
+   with urllib.request.urlopen(urllib.request.Request(origin+resource,headers={'Cookie':'session='+token}),timeout=15) as response:
+    assert response.status==200 and response.read(),resource
+    if resource.split('?')[0].endswith('.css'):assert response.headers.get_content_type()=='text/css',resource
+
   me=request(origin,token,'/api/me');csrf=me['csrf'];request(origin,'','/api/tramonto/notebooks',expected=403)
   request(origin,token,'/api/notte/status',expected=404);request(origin,token,'/api/chat',expected=404)
   request(origin,token,'/api/tramonto/notebooks','POST',{'title':'Denied'},expected=403)

@@ -34,6 +34,10 @@ npm test
 npm run build
 ```
 
-Build macOS apps on macOS and Windows installers on Windows. The release workflow checks the frozen backend, offline persistence and actual circuit output before publishing installers and SHA-256 checksums. Native signing can be added later without changing the notebook format. Updates are checked explicitly from the app menu and installed from this repository's releases.
+Build macOS apps on macOS and Windows installers on Windows. The release workflow checks every script and stylesheet referenced by the start page, the actual styled first screen and collection navigation, the frozen backend, offline persistence and real circuit output before publishing installers and SHA-256 checksums. Native signing can be added later without changing the notebook format. Updates are checked explicitly from the app menu and installed from this repository's releases.
 
 To restore a full backup, close the app, keep a copy of the current data folder, then replace `notebook/notebook.sqlite3` with your backup and reopen Tramonto. Per-notebook exports can be imported directly from the notebook UI.
+
+## Desktop 1.0.2
+
+Fixes the unstyled start screen in 1.0.0/1.0.1: the shared base stylesheet is now bundled and served locally. Icons, buttons, notebook boxes, hidden field labels and spacing render correctly. Install the update over the existing app; your local notebooks are retained.
