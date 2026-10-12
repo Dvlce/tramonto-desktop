@@ -1,0 +1,106 @@
+name: Desktop installers
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2022
+            arch: x64
+          - os: macos-15-intel
+            arch: x64
+          - os: macos-15
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: npm ci
+      - run: python -m pip install -r backend/requirements.txt
+      - name: Read pinned notebook revision
+        id: source
+        shell: bash
+        run: python -c 'import json,os; print("revision="+json.load(open("portal-manifest.json"))["revision"])' >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: Dvlce/alba-tramonto
+          ref: ${{ steps.source.outputs.revision }}
+          path: shared-notebook
+      - run: python scripts/sync_portal.py shared-notebook
+      - run: git diff --exit-code -- portal-manifest.json backend/source
+      - run: npm test
+      - name: Bundle macOS simulator and libraries
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          brew install ngspice
+          python scripts/bundle_spice.py "$(brew --prefix)/bin/ngspice"
+      - name: Bundle verified Windows simulator
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Invoke-WebRequest 'https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47_64.7z' -OutFile ngspice.7z
+          if ((Get-FileHash ngspice.7z -Algorithm SHA256).Hash.ToLower() -ne '59225971bd68cdd1199443649aa4615a9e6d684933f205ab49006a3942518f5a') { throw 'ngspice checksum mismatch' }
+          7z x ngspice.7z -ongspice-extracted
+          if ($LASTEXITCODE -ne 0) { throw 'ngspice extraction failed' }
+          $binary = Get-ChildItem ngspice-extracted -Recurse -Filter ngspice.exe | Select-Object -First 1
+          if (!$binary) { throw 'ngspice executable missing' }
+          python scripts/bundle_spice.py $binary.FullName
+      - run: python scripts/build_backend.py
+      - run: python test/backend_smoke.py
+      - run: node test/electron_smoke.cjs
+      - run: npx electron-builder --${{ matrix.arch }} --publish never
+      - name: Check packaged desktop app
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = Windows ]; then
+            export TRAMONTO_PACKAGED_EXEC="$PWD/dist/win-unpacked/Tramonto.exe"
+          elif [ '${{ matrix.arch }}' = arm64 ]; then
+            export TRAMONTO_PACKAGED_EXEC="$PWD/dist/mac-arm64/Tramonto.app/Contents/MacOS/Tramonto"
+          else
+            export TRAMONTO_PACKAGED_EXEC="$PWD/dist/mac/Tramonto.app/Contents/MacOS/Tramonto"
+          fi
+          node test/electron_smoke.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ runner.os }}-${{ matrix.arch }}
+          path: |
+            dist/*.exe
+            dist/*.dmg
+          if-no-files-found: error
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: desktop
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: installer-*
+          merge-multiple: true
+          path: installers
+      - name: Checksums and public release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd installers
+          sha256sum *.exe *.dmg > SHA256SUMS.txt
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "Tramonto Desktop $GITHUB_REF_NAME" --notes "Standalone offline notebook for Windows, Mac Intel and Apple Silicon. No AI or model downloads. Includes ngspice, adjustable oscilloscope, formulas and diagrams. Installers are unsigned; macOS is not notarized. Local notebooks are preserved when upgrading." *.exe *.dmg SHA256SUMS.txt

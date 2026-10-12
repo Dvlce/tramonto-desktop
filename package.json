@@ -1,0 +1,72 @@
+{
+  "name": "tramonto-desktop",
+  "version": "1.0.0",
+  "description": "Standalone Tramonto notebook for Windows and macOS. No local AI.",
+  "main": "main.cjs",
+  "author": "Dvlce",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --publish never",
+    "test": "node --test test/*.test.cjs"
+  },
+  "devDependencies": {
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "playwright": "1.64.0"
+  },
+  "build": {
+    "appId": "dev.dvlce.tramonto",
+    "productName": "Tramonto",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/backend",
+        "to": "backend"
+      },
+      {
+        "from": "resources/portal",
+        "to": "portal"
+      },
+      {
+        "from": "resources/ngspice",
+        "to": "ngspice"
+      },
+      {
+        "from": "THIRD_PARTY.md",
+        "to": "THIRD_PARTY.md"
+      }
+    ],
+    "asar": true,
+    "artifactName": "Tramonto-${version}-${os}-${arch}.${ext}",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.education",
+      "hardenedRuntime": true
+    },
+    "dmg": {
+      "writeUpdateInfo": false
+    }
+  }
+}

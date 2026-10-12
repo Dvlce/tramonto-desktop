@@ -1,0 +1,10 @@
+node_modules/
+resources/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+*.sqlite3
+*.key
+artifacts/
