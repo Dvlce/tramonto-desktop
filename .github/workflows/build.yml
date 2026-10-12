@@ -57,7 +57,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          Invoke-WebRequest 'https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47_64.7z' -OutFile ngspice.7z
+          Invoke-WebRequest 'https://github.com/Dvlce/tramonto-desktop/releases/download/ngspice-47-runtime/ngspice-47_64.7z' -OutFile ngspice.7z
           if ((Get-FileHash ngspice.7z -Algorithm SHA256).Hash.ToLower() -ne '59225971bd68cdd1199443649aa4615a9e6d684933f205ab49006a3942518f5a') { throw 'ngspice checksum mismatch' }
           7z x ngspice.7z -ongspice-extracted
           if ($LASTEXITCODE -ne 0) { throw 'ngspice extraction failed' }

@@ -2,7 +2,7 @@
 import hashlib,os,shutil,subprocess,tarfile,urllib.request
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-URL='https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz'
+URL='https://github.com/Dvlce/tramonto-desktop/releases/download/ngspice-47-runtime/ngspice-47.tar.gz'
 DIGEST='894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f'
 work=ROOT/'build/spice-source';work.mkdir(parents=True,exist_ok=True);archive=work/'ngspice-47.tar.gz'
 if not archive.exists():
