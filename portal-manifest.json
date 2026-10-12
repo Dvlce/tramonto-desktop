@@ -1,6 +1,4 @@
 {
-  "source": "https://github.com/Dvlce/alba-tramonto",
-  "revision": "51da4ed1404477ceb99f3555cb93413bae21818e",
   "ai": false,
   "files": {
     "backend/source/config.py": "564b2db024994186386d9b508ff23fc99c1f77494d370474958f4ec37774dce9",
@@ -12,7 +10,7 @@
     "backend/source/tramonto.py": "33965a36bcdd009a348aea0a421548e89aef9daa1716764efd0c61ca9d78334e",
     "resources/portal/portal-motion.js": "b3ff551b8fc96cd1397df4746a827ec4e4451d4a6cf08b7a0161e434b6bc35dd",
     "resources/portal/tramonto-font.js": "2a00f765cdbb380b5591f149d41236e85d15cf50e5b137f9244d9e8440b51a72",
-    "resources/portal/tramonto-lab.js": "0ea462a2a82d9c179b8042b728e58b41e64ebc2a70c50c0f52efbe578115de9c",
+    "resources/portal/tramonto-lab.js": "b746b75027a507b4929519debb0794680716c89b1028c03d1d8dd37a9e29fa61",
     "resources/portal/tramonto-math.js": "eab57f3a2a61500415add9ae33a5e1ba4f91be8f86d545afd1e6a44cbff576ea",
     "resources/portal/tramonto-study.js": "55895a44bca3ff91b70a75e9d0a5a25e32152f6f6e14e18488b8a792adf3fb7c",
     "resources/portal/tramonto-tools.js": "dd20bfceab54a30490a1953c15243fb379678f5caa1b9bbd539440f49bcf0a5e",
@@ -103,5 +101,7 @@
     "resources/portal/vendor/opentype.min.js": "c0f9c7ca85e18075a8819e5fe2dee6e1d535f9a2269f5314f36cce94a183adba",
     "resources/portal/vendor/purify.min.js": "2c90a9b46d6463f26038a29b686e82bc91de01fdac9d5229e7cfe3b360134ea2",
     "resources/portal/vendor/tramonto-icons.js": "3a2e6693b08543b6497ef7338ababd7d216f31836fb67cfd02d0187f4fc74fde"
-  }
+  },
+  "revision": "a0b52ec01e81788e050f7e96b12857597f81e783",
+  "source": "https://github.com/Dvlce/alba-tramonto"
 }

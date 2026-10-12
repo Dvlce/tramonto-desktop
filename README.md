@@ -24,7 +24,10 @@ Node.js 22+, Python 3.12+ and ngspice are needed **only to develop/build**:
 npm ci
 python -m pip install -r backend/requirements.txt
 python scripts/sync_portal.py ../alba-tramonto
-python scripts/bundle_spice.py /path/to/ngspice
+# macOS: compile the pinned simulator without extra system libraries
+python scripts/build_spice.py
+# Windows: bundle the verified upstream ngspice executable
+# python scripts/bundle_spice.py /path/to/ngspice.exe
 python scripts/build_backend.py
 npm start
 npm test
@@ -32,3 +35,5 @@ npm run build
 ```
 
 Build macOS apps on macOS and Windows installers on Windows. The release workflow checks the frozen backend, offline persistence and actual circuit output before publishing installers and SHA-256 checksums. Native signing can be added later without changing the notebook format. Updates are checked explicitly from the app menu and installed from this repository's releases.
+
+To restore a full backup, close the app, keep a copy of the current data folder, then replace `notebook/notebook.sqlite3` with your backup and reopen Tramonto. Per-notebook exports can be imported directly from the notebook UI.

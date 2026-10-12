@@ -14,7 +14,7 @@ p=assets/'tramonto.html';html=p.read_text(encoding='utf-8');html=re.sub(r'<a\b[^
 revision=subprocess.check_output(['git','-C',str(source),'rev-parse','HEAD'],text=True).strip()
 manifest={'source':'https://github.com/Dvlce/alba-tramonto','revision':revision,'ai':False,'files':{}}
 for base in [code,assets]:
- for item in sorted(base.rglob('*')):
+ for item in sorted(base.rglob('*'),key=lambda item:item.relative_to(ROOT).as_posix()):
   if item.is_file():manifest['files'][item.relative_to(ROOT).as_posix()]=hashlib.sha256(item.read_bytes()).hexdigest()
-(ROOT/'portal-manifest.json').write_bytes((json.dumps(manifest,indent=2)+'\n').encode('utf-8'))
+(ROOT/'portal-manifest.json').write_bytes((json.dumps(manifest,indent=2,sort_keys=True)+'\n').encode('utf-8'))
 print('Copied public notebook sources:',revision,'— no models or private data.')
