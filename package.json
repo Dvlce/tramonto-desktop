@@ -41,6 +41,10 @@
       {
         "from": "THIRD_PARTY.md",
         "to": "THIRD_PARTY.md"
+      },
+      {
+        "from": "third-party",
+        "to": "third-party"
       }
     ],
     "asar": true,

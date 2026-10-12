@@ -24,6 +24,8 @@ jobs:
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     steps:
+      - name: Keep public asset hashes identical across platforms
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -50,8 +52,7 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          brew install ngspice
-          python scripts/bundle_spice.py "$(brew --prefix)/bin/ngspice"
+          python scripts/build_spice.py
       - name: Bundle verified Windows simulator
         if: runner.os == 'Windows'
         shell: pwsh
