@@ -13,7 +13,7 @@ with tarfile.open(archive) as package:
   if not (work/member.name).resolve().is_relative_to(work.resolve()) or member.issym() or member.islnk():raise ValueError('Unsafe ngspice archive')
  package.extractall(work)
 source=work/'ngspice-47'
-subprocess.run(['./configure','--with-x=no','--with-readline=no','--disable-xspice','--disable-cider','--disable-openmp'],cwd=source,check=True)
+subprocess.run(['./configure','--with-x=no','--with-readline=no','--disable-cider','--disable-openmp'],cwd=source,check=True)
 subprocess.run(['make','-j'+str(min(8,os.cpu_count() or 2))],cwd=source,check=True)
 shutil.rmtree(ROOT/'resources/ngspice',ignore_errors=True)
 subprocess.run([__import__('sys').executable,str(ROOT/'scripts/bundle_spice.py'),str(source/'src/ngspice')],check=True)
