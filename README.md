@@ -6,7 +6,7 @@ A standalone notebook for **Windows 64 bit**, **macOS Apple Silicon** and **macO
 
 Use the Windows `.exe` installer or the macOS `.dmg` matching your processor. The app includes its web editor, Python runtime and ngspice circuit simulator. No system Python, Node.js or account is required. Windows and macOS builds are currently unsigned; macOS builds are not notarized. Your operating system may require its standard confirmation for downloaded applications.
 
-The notebook includes selected text sizes, transparent formulas, point charts, movable images, electronic schematics and an adjustable oscilloscope with Fourier analysis. The network editor provides hardware models, physical port choices and saved device CLI notes; its IPv4 simulation is educational and does not execute Cisco IOS or contact physical equipment.
+The notebook includes selected text sizes, transparent formulas, point charts, movable images, electronic schematics and an adjustable oscilloscope with Fourier analysis. The network editor provides hardware models, physical port choices and saved device CLI notes; double-click components to edit their values, or network devices to open Properties, CLI and Ports. Device commands can set hostname, IPv4, gateway, VLAN and enabled state. Its IPv4 simulation is educational and does not execute Cisco IOS or contact physical equipment.
 
 Your data lives in the app's standard user-data folder. Open it with **Quaderno → Apri cartella dei dati**. Installing a newer version keeps the data. Use **Backup di tutti i quaderni** to save a consistent SQLite copy; per-notebook exports include images and can be imported through the editor. The app does not sync with the Raspberry.
 
